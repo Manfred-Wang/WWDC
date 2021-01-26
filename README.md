@@ -1,69 +1,102 @@
-Psst, want me to love you? Then [check this out](https://getbrowserfreedom.com) 😁
+# The unofficial WWDC app for macOS
 
-# The WWDC app for macOS
+Enjoy WWDC from the comfort of your Mac with the unofficial WWDC app for macOS. Whether you're (virtually) attending or not, you can access livestreams, videos and sessions during the conference and as a year-round resource.
 
-This is the unofficial WWDC app for macOS.
+In partnership with CocoaHub, you can also use the app's Community tab to browse through Apple announcements, updates to the Swift language, new episodes from your favorite podcasts, community blog posts, and more.
 
-Use this app to watch WWDC sessions on your Mac and do much more. Keep reading...
+⬇️ If you just want to download the latest release, go to [the website](https://wwdc.io).
 
-**⬇️ [Click here to download the latest release](https://raw.githubusercontent.com/insidegui/WWDC/master/Releases/WWDC_latest.zip) ⬇️**
+## Schedule
 
-## Schedule and Live Streaming
+The schedule tab shows the schedule for the current edition of WWDC, and allows you to watch live streams for the Keynote and other sessions throughout the week.
 
-The app now shows the schedule for this year's sessions.
+## Videos
 
-Please note that since this app is focused on videos, the schedule only shows sessions which will be live streamed, not labs and other events.
+Watch this year's videos as they're released and access videos from previous years. You can also read transcripts of sessions and easily jump to a specific point in the relevant video. Transcripts are also searchable and available in
 
-When sessions are live, a "live" indicator appears on the list and a "Watch Live" button becomes available:
+![videos](./screenshots/v7/Transcript.png)
 
-![Schedule Screenshot](screenshots/screenshot-schedule.png)
+### Video features
 
-## Searching
+- Watch videos in 0.5x, 1x, 1.25x, 1.5x, 1.75x or 2x speeds
+- Fullscreen and native picture-in-picture support
+- Navigate video contents easily with the help of transcripts
 
-The app has a powerful search feature. When you first launch the app, It indexes the videos database and downloads transcripts from ASCIIWWDC, so when you search, not only will you get search results from session titles and descriptions, but also from what the presenter said in the sessions.
+### Clip Sharing
 
-The app even shows a list of phrases matching your search so you can jump right to the point in the session where your searched word/phrase appears.
+Clip Sharing allows you to share a short segment (up to 5 minutes) from a session's video. This is a great feature for quickly sharing snippets of content from the conference.
 
-![Transcript Search](screenshots/transcriptsearch.png)
+![clipsharing](./screenshots/v7/ClipSharing.png)
 
-With the handy filter bar you can filter sessions by year, track and focus, and also filter to show only favorited or downloaded sessions.
+## Chromecast
 
-![Transcript Search](screenshots/filterbar.png)
-	
+You can watch WWDC videos (both live and on-demand) on your Chromecast. Just click the Chromecast button while playing a video, choose your device from the list and control playback using the Google Home app on your phone.
+
+![chromecast](./screenshots/v7/ChromeCast.png)
+
+## Bookmarks
+
+Have you ever found yourself watching a WWDC session and wishing you could take notes at a specific point in the video to refer back to later on? This is now possible with bookmarks.
+
+With bookmarks, you can create a reference point within a video and add an annotation to it. Your bookmark annotations can also be considered while using the search, so it's easier than ever to find the content you've bookmarked before.
+
+![bookmarks](./screenshots/v7/Video-Bookmark.png)
+
+## Community
+
+Browse content curated by the [CocoaHub](http://cocoahub.app) team in the Community tab.
+
+![community](./screenshots/v7/Community.png)
+
+## iCloud Sync
+
+Enable the iCloud sync in preferences and your favorites, bookmarks and progress in sessions will be synced accross your Macs.
+
 ## Sharing
 
-You can share direct links to specific session videos. Just select the session on the list and ⌘C to copy It's URL, or use the right-click menu.
+You can easily share links to sessions or videos by using the share button. The links shared are universal links that redirect to Apple's developer website, so if they're opened on a Mac which has the app installed, they will open in the app. The links are also compatible with iOS devices using the Apple Developer app.
 
-![rightmenushare](screenshots/rightmenushare.png)
+## Nerdy bits 🤓
 
-## Reading
+### Code of Conduct
+We expect all of our contributors to help uphold the values set out in our [code of conduct](./CODE_OF_CONDUCT.md). We fundamentally believe this will help us build a better community, and with it a better app.
 
-WWDC for macOS is integrated with [ASCIIWWDC](http://asciiwwdc.com), so you can see and search through transcripts of the sessions while watching the videos.
+### Contributing
 
-![screenshot2](screenshots/screenshot2.png)
+Please read the [contribution guidelines](CONTRIBUTING.md) before opening an issue or pull request.
 
-## Build Instructions
+### External libraries
 
-**Pre-requisites:**
+A number of third-party libraries are used by the app:
 
-- Xcode 7.3 or later
-- [CocoaPods](https://cocoapods.org)
+- [Realm](https://realm.io): data storage and caching
+- [Sparkle](https://sparkle-project.org/): automatic updates
+- [CloudKitCodable](https://github.com/insidegui/CloudKitCodable): sync support
+- [Siesta](http://bustoutsolutions.github.io/siesta/): networking
+- [RxSwift](https://github.com/ReactiveX/RxSwift): reactive extensions
+- [RxRealm](https://github.com/RxSwiftCommunity/RxRealm): reactive extensions for Realm
 
-Clone the repository:
+### Internal libraries
 
-	$ git clone --recursive https://github.com/insidegui/WWDC.git
+- **ConfCore** is the core of the app that deals with Apple's WWDC API, data storage, caching, syncing and transcripts (everything that has to do with data, basically)
+- **ConfUIFoundation** contains shared color, font definitions and other useful extensions used by the main app target and `PlayerUI`
+- **PlayerUI** contains the UI components for the video player and some general-purpose UI components used throughout the app
+- **ThrowBack** provides support for migration of user data and preferences from old versions of the app
 
-Install dependencies:
+## Building the app
 
-	$ pod install
+**Building requires Xcode 11.5 or later.**
 
+Building the app requires [Carthage](https://github.com/Carthage/Carthage) to be installed.
 
-### Cask
+**Clone this branch and before opening the project, run `./bootstrap.sh`** to fetch the dependencies (this script can take a while to run, that's normal).
 
-You can also install using [Homebrew Cask](http://caskroom.io):
+Since the app uses CloudKit, when you build it yourself, all of the CloudKit-dependant functionality will not be available. CloudKit requires a provisioning profile and a paid developer account.
 
-	$ brew cask install wwdc
-	
-### PlayBack Tip: Speed Up / Slow Down
+To build the app yourself without the need for a developer account and a CloudKit container, **always use the `WWDC` target when building**. The `WWDC with iCloud` target requires a paid developer account and a CloudKit container, which you won't be able to create because of the app's bundle identifier.
 
-Speed up or slow down playback by ⌥ + clicking on the skip forward or backward arrows on the player window.
+![schedule](./screenshots/v7/BuildTarget.png)
+
+### Clearing app data during development
+
+If you need to clear the app's preferences and stored data during development, you can run `./cleardata.sh` in the project folder. **This will delete all of your preferences and data like favorites, bookmarks and progress in videos, so be careful**.
